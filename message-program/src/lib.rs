@@ -35,10 +35,11 @@ pub fn send_instruction(data: &[u8]) -> Result<()> {
 }
 
 fn process_instruction(discriminator: u8, data: &[u8]) -> Result<()> {
+    let msg_bytes = [&[discriminator], data].concat();
     match Instructions::try_from(discriminator)? {
-        Instructions::Initialize => initialize_message(data),
-        Instructions::Close => close_message(data),
-        Instructions::Update => update_message(data),
+        Instructions::Initialize => initialize_message(&msg_bytes),
+        Instructions::Close => close_message(&msg_bytes),
+        Instructions::Update => update_message(&msg_bytes),
     }
 }
 
